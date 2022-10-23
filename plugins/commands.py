@@ -664,12 +664,12 @@ async def tvseries_updater(bot, message):
 async def add_template(bot, message):
     sts = await message.reply("Checking Your Request...")
     if " " not in message.text:
-        return await message.reply("Use correct format.<code>/template (group id) (custom template)")
+        return await message.reply("Use correct format. <code>/template (group id) (custom template)</code>")
     data = message.text.strip().split(" ", 2)
     try:
         cmd, groupid, template = data
         user = await bot.get_chat_member(groupid, message.from_user.id)
-        if user.status == enums.ChatMemberStatus.ADMINISTRATOR or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+        if user.status == enums.ChatMemberStatus.OWNER or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
             await add_admingroup(groupid, template)
             await message.reply("your template added")
         else:
