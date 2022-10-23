@@ -9,6 +9,7 @@ import urllib.request
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty, MessageEmpty
 from Script import script
 import pyrogram
+from database.admin_group import get_admingroup
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
     make_inactive
 from info import ADMINS, AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, P_TTI_SHOW_OFF, IMDB, \
@@ -1046,6 +1047,9 @@ async def pm_auto_filter(client, msg, spoll=False):
                    )
 
     imdb = await get_poster(search, file=(files[0]).file_name)
+    Template = await get_admingroup(message.chat.id)
+    if Template:
+        IMDB_TEMPLATE = Template
     if imdb:
         cap = IMDB_TEMPLATE.format(
             query=search,
@@ -1268,6 +1272,9 @@ async def tvseries_filters(client, message, text=False):
             btns.extend(btn)
 
         imdb = await get_poster(message.text) if IMDB else None
+        Template = await get_admingroup(message.chat.id)
+        if Template:
+            IMDB_TEMPLATE = Template
         if imdb:
             cap = IMDB_TEMPLATE.format(
                 title=imdb['title'],

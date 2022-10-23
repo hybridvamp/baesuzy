@@ -3,9 +3,10 @@ import logging
 import random
 import asyncio
 from Script import script
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
+from database.admin_group import remove_admingroup, add_admingroup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
@@ -656,6 +657,46 @@ async def tvseries_updater(bot, message):
 
     except:
         return await message.reply("May Be Error is you puts space between links: \nUse correct format.<code>/addseries (name of series without space) (language eng/hindi/tamil/span) (quility 480/ 720/ 1080) (tv series batch links without space , use commas)</code>\n\n\nExample <code>/addseries strangerthings eng 480 https://tinyurl.com/23smxlh3,https://tinyurl.com/2yq2ghfh,https://tinyurl.com/27d9xyww,https://tinyurl.com/259az578</code>.")
+    await sts.delete()
+
+
+@Client.on_message(filters.command("template") & filters.incoming)
+async def add_template(bot, message):
+    sts = await message.reply("Checking Your Request...")
+    if " " not in message.text:
+        return await message.reply("Use correct format.<code>/template (group id) (custom template)")
+    data = message.text.strip().split(" ", 2)
+    try:
+        cmd, groupid, template = data
+        user = await bot.get_chat_member(groupid, message.from_user.id)
+        if user.status == enums.ChatMemberStatus.ADMINISTRATOR or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+            await add_admingroup(groupid, template)
+            await message.reply("your template added")
+        else:
+            await message.reply("sorry, you'r not admin on that group")
+
+    except:
+        return await message.reply("Something went wrong.")
+    await sts.delete()
+
+
+@Client.on_message(filters.command("removetemplate") & filters.incoming)
+async def tvseries_remover(bot, message):
+    sts = await message.reply("Checking Your Request...")
+    if " " not in message.text:
+        return await message.reply("Use correct format.<code>/removetemplate (group id)")
+    data = message.text.strip().split(" ")
+    try:
+        cmd, name = data
+        user = await bot.get_chat_member(name, message.from_user.id)
+        if user.status == enums.ChatMemberStatus.ADMINISTRATOR or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+            await remove_admingroup(name)
+            await message.reply("your group template is removed")
+        else:
+            await message.reply("sorry, you'r not admin on that group")
+
+    except:
+        return await message.reply("Not Found.")
     await sts.delete()
 
 
