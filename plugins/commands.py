@@ -6,7 +6,7 @@ from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
-from database.admin_group import remove_admingroup, add_admingroup
+from database.admin_group import get_admingroup, remove_admingroup, add_admingroup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
@@ -671,13 +671,21 @@ async def add_template(bot, message):
         user = await bot.get_chat_member(groupid, message.from_user.id)
         if user.status == enums.ChatMemberStatus.OWNER or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
             await add_admingroup(groupid, template)
-            await message.reply("your template added")
+            await message.reply("your template added ")
         else:
             await message.reply("sorry, you'r not admin on that group")
 
-    except:
-        return await message.reply("Something went wrong.")
+    except Exception as e:
+        return await message.reply(f"Error : {e}.")
     await sts.delete()
+
+
+@Client.on_message(filters.command("viewtemp") & filters.incoming)
+async def template_get(bot, message):
+    data = message.text.strip().split(" ")
+    cmd, groupid = data
+    k = await get_admingroup(groupid)
+    await message.reply(k)
 
 
 @Client.on_message(filters.command("removetemplate") & filters.incoming)
