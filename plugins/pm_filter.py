@@ -943,8 +943,10 @@ async def auto_filter(client, msg, spoll=False):
     imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
     TEMPLATE = settings['template']
     Template = await get_admingroup(message.chat.id)
+    logger.exception(Template)
     if Template is not None:
         TEMPLATE = Template.template
+        logger.exception(TEMPLATE)
     if imdb:
         cap = TEMPLATE.format(
             query=search,
