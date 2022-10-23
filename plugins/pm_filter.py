@@ -1048,8 +1048,8 @@ async def pm_auto_filter(client, msg, spoll=False):
 
     imdb = await get_poster(search, file=(files[0]).file_name)
     Template = await get_admingroup(message.chat.id)
-    if Template:
-        IMDB_TEMPLATE = Template
+    if Template is not None:
+        IMDB_TEMPLATE = Template.template
     if imdb:
         cap = IMDB_TEMPLATE.format(
             query=search,
