@@ -127,6 +127,10 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                 if media is not None:
                     break
 
+            if not media:
+                no_media += 1
+                continue
+
             media.file_type = file_type
             media.caption = message.caption
 
