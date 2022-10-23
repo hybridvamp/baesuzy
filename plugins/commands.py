@@ -697,7 +697,7 @@ async def template_remover(bot, message):
     try:
         cmd, name = data
         user = await bot.get_chat_member(name, message.from_user.id)
-        if user.status == enums.ChatMemberStatus.ADMINISTRATOR or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
+        if user.status == enums.ChatMemberStatus.OWNER or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
             await remove_admingroup(int(name))
             await message.reply("your group template is removed")
         else:

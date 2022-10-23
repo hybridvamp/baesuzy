@@ -1277,7 +1277,7 @@ async def tvseries_filters(client, message, text=False):
         imdb = await get_poster(message.text) if IMDB else None
         Template = await get_admingroup(message.chat.id)
         if Template:
-            IMDB_TEMPLATE = Template
+            IMDB_TEMPLATE = Template.template
         if imdb:
             cap = IMDB_TEMPLATE.format(
                 title=imdb['title'],
