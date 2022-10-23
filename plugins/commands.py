@@ -689,7 +689,7 @@ async def template_get(bot, message):
 
 
 @Client.on_message(filters.command("removetemplate") & filters.incoming)
-async def tvseries_remover(bot, message):
+async def template_remover(bot, message):
     sts = await message.reply("Checking Your Request...")
     if " " not in message.text:
         return await message.reply("Use correct format.<code>/removetemplate (group id)")
