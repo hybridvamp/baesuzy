@@ -668,7 +668,7 @@ async def add_template(bot, message):
     data = message.text.strip().split(" ", 2)
     try:
         cmd, groupid, template = data
-        user = await bot.get_chat_member(groupid, message.from_user.id)
+        user = await bot.get_chat_member(int(groupid), message.from_user.id)
         if user.status == enums.ChatMemberStatus.OWNER or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
             await add_admingroup(groupid, template)
             await message.reply("your template added ")
@@ -684,7 +684,7 @@ async def add_template(bot, message):
 async def template_get(bot, message):
     data = message.text.strip().split(" ")
     cmd, groupid = data
-    k = await get_admingroup(groupid)
+    k = await get_admingroup(int(groupid))
     await message.reply(k)
 
 
@@ -698,7 +698,7 @@ async def tvseries_remover(bot, message):
         cmd, name = data
         user = await bot.get_chat_member(name, message.from_user.id)
         if user.status == enums.ChatMemberStatus.ADMINISTRATOR or user.status == enums.ChatMemberStatus.ADMINISTRATOR:
-            await remove_admingroup(name)
+            await remove_admingroup(int(name))
             await message.reply("your group template is removed")
         else:
             await message.reply("sorry, you'r not admin on that group")
