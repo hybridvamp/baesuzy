@@ -945,7 +945,7 @@ async def auto_filter(client, msg, spoll=False):
     Template = await get_admingroup(message.chat.id)
     logger.exception(Template)
     if Template is not None:
-        TEMPLATE = Template.template
+        TEMPLATE = Template["template"]
         logger.exception(TEMPLATE)
     if imdb:
         cap = TEMPLATE.format(
@@ -1054,7 +1054,7 @@ async def pm_auto_filter(client, msg, spoll=False):
     imdb = await get_poster(search, file=(files[0]).file_name)
     Template = await get_admingroup(message.chat.id)
     if Template is not None:
-        IMDB_TEMPLATE = Template.template
+        IMDB_TEMPLATE = Template["template"]
     if imdb:
         cap = IMDB_TEMPLATE.format(
             query=search,
@@ -1279,7 +1279,7 @@ async def tvseries_filters(client, message, text=False):
         imdb = await get_poster(message.text) if IMDB else None
         Template = await get_admingroup(message.chat.id)
         if Template:
-            IMDB_TEMPLATE = Template.template
+            IMDB_TEMPLATE = Template["template"]
         if imdb:
             cap = IMDB_TEMPLATE.format(
                 title=imdb['title'],
