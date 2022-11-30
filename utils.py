@@ -332,10 +332,10 @@ def getseries(name):
 
 
 def gen_url(link):
-    try:
-        urllink = shortner.tinyurl.short(link)
-    except Exception:
-        urllink = link
+#     try:
+#         urllink = shortner.tinyurl.short(link)
+#     except Exception:
+#         urllink = link
     return urllink
 
 
