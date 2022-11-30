@@ -40,8 +40,7 @@ class Database:
         return bool(user)
 
     async def total_users_count(self):
-        count = await self.col.count_documents({})
-        return count
+        return await self.col.count_documents({})
 
     async def remove_ban(self, id):
         ban_status = dict(
@@ -111,8 +110,7 @@ class Database:
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
 
     async def total_chat_count(self):
-        count = await self.grp.count_documents({})
-        return count
+        return await self.grp.count_documents({})
 
     async def get_all_chats(self):
         return self.grp.find({})
