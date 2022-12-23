@@ -78,7 +78,7 @@ async def next_page(bot, query):
     fileids = [file.file_id for file in files]
     dbid = fileids[0]
     fileids = "L_I_N_K".join(fileids)
-    
+
     btn = [[InlineKeyboardButton(text=f"{get_size(file.file_size)} ║ {get_name(file.file_name)}", url=gen_url(
         f'https://telegram.dog/SpaciousUniverseBot?start=FEND-{file.file_id}'))] for file in files]
 
@@ -790,7 +790,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
 async def auto_filter(client, msg, spoll=False):
-    
+
     if not spoll:
         message = msg
         if message.text.startswith("/"):
@@ -1173,7 +1173,7 @@ async def tvseries_filters(client, message, text=False):
                        )
             btns.extend(btn)
 
-        imdb = await get_poster(message.text) if IMDB else None
+        imdb = await get_poster(message.text)
         if message.chat.type == enums.ChatType.GROUP:
             Template = await get_admingroup(message.chat.id)
             if Template is not None:
