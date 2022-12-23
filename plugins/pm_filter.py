@@ -790,9 +790,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
 async def auto_filter(client, msg, spoll=False):
+    
     if not spoll:
         message = msg
-        settings = await get_settings(message.chat.id)
         if message.text.startswith("/"):
             return  # ignore commands
         if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
@@ -806,7 +806,6 @@ async def auto_filter(client, msg, spoll=False):
         else:
             return
     else:
-        settings = await get_settings(msg.message.chat.id)
         message = msg.message.reply_to_message  # msg will be callback query
         search, files, offset, total_results = spoll
 
@@ -841,8 +840,7 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text="❏ 1/1", callback_data="pages")]
         )
 
-    imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
-    TEMPLATE = settings['template']
+    imdb = await get_poster(search, file=(files[0]).file_name)
     Template = await get_admingroup(message.chat.id)
     if Template is not None:
         TEMPLATE = Template["template"]
