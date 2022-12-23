@@ -814,8 +814,6 @@ async def auto_filter(client, msg, spoll=False):
     dbid = fileids[0]
     fileids = "L_I_N_K".join(fileids)
 
-    user_stats = await get_verification(msg.from_user.id)
-
     btn = [
         [
             InlineKeyboardButton(
