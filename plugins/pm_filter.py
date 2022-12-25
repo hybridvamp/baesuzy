@@ -844,12 +844,10 @@ async def auto_filter(client, msg, spoll=False):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         Template = await get_admingroup(int(message.chat.id))
         if Template is not None:
-            TEMPLATE = Template["template"]
-        else:
-            TEMPLATE = IMDB_TEMPLATE
+            IMDB_TEMPLATE = Template["template"]
 
     if imdb:
-        cap = TEMPLATE.format(
+        cap = IMDB_TEMPLATE.format(
             query=search,
             title=imdb['title'],
             votes=imdb['votes'],
@@ -1175,12 +1173,13 @@ async def tvseries_filters(client, message, text=False):
                            text=f"{language} - {quality}", callback_data="pages")]
                        )
             btns.extend(btn)
-
+        
         imdb = await get_poster(message.text)
-        if message.chat.type == enums.ChatType.GROUP:
-            Template = await get_admingroup(message.chat.id)
+        if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+            Template = await get_admingroup(int(message.chat.id))
             if Template is not None:
                 IMDB_TEMPLATE = Template["template"]
+
         if imdb:
             cap = IMDB_TEMPLATE.format(
                 title=imdb['title'],
