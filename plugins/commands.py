@@ -325,9 +325,10 @@ async def add_template(bot, message):
 
 @Client.on_message(filters.command("tt") & filters.incoming)
 async def tt_get(bot, message):
-    await message.reply(message.chat.id)
     if message.chat.type == enums.ChatType.GROUP:
+        await message.reply(message.chat.id)
         Template = await get_admingroup(int(message.chat.id))
+        await message.reply(Template)
         if Template is not None:
             await message.reply(Template)
             k = Template["template"]
