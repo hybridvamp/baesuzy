@@ -28,5 +28,4 @@ async def get_admingroup(group_id):
     mycol = mydb["templatedb"]
     myquery = {"group_id": str(group_id), }
     mydoc = mycol.find(myquery)
-    for user_dic in mydoc:
-        return user_dic
+    return mydoc[0]
