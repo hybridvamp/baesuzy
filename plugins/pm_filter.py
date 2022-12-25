@@ -494,7 +494,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 chat_id=query.from_user.id,
                 file_id=file_id,
                 caption=f_caption,
-                protect_content=True if ident == "filep" else False
+                protect_content=ident == "filep",
             )
             sendmsglist = [k]
             await add_sent_files(query.from_user.id, file_id)
@@ -565,7 +565,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             chat_id=query.from_user.id,
             file_id=file_id,
             caption=f_caption,
-            protect_content=True if ident == 'checksubp' else False
+            protect_content=ident == 'checksubp',
         )
     elif query.data == "pages":
         await query.answer()
