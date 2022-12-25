@@ -1102,7 +1102,9 @@ async def manual_filters(client, message, text=False):
                 reply_text = reply_text.replace(
                     "\\n", "\n").replace("\\t", "\t")
 
-            if btn is not None:
+            elif btn is not None:
+                if reply_text is None:
+                    break
                 try:
                     if fileid == "None":
                         if btn == "[]":
