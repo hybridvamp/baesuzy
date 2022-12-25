@@ -349,7 +349,7 @@ async def start(client, message):
                     '🔹 Verfiy 🔹', url=gen_url(f'https://telegram.dog/SpaciousUniverseBot?start=REAL-{data}'))
             ]]
             return await message.reply(
-                text=f"""
+                text="""
                 <p>you'r using my old messages. please verify first</p>
                 """,
                 reply_markup=InlineKeyboardMarkup(button)
