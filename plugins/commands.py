@@ -323,7 +323,18 @@ async def add_template(bot, message):
         return await message.reply(f"Error : {e}.")
     await sts.delete()
 
-
+@Client.on_message(filters.command("tt") & filters.incoming)
+async def tt_get(bot, message):
+    if message.chat.type == enums.ChatType.GROUP:
+        Template = await get_admingroup(int(message.chat.id))
+        if Template is not None:
+            await message.reply(Template)
+            k = Template["template"]
+            await message.reply(k)
+        else:
+            await message.reply(Template)
+    
+    
 @Client.on_message(filters.command("viewtemp") & filters.incoming)
 async def template_get(bot, message):
     data = message.text.strip().split(" ")
