@@ -840,12 +840,14 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text="❏ 1/1", callback_data="pages")]
         )
 
-    imdb = await get_poster(search, file=(files[0]).file_name)
-    Template = await get_admingroup(message.chat.id)
-    if Template is not None:
-        TEMPLATE = Template["template"]
+    imdb = await get_poster(message.text)
+    if message.chat.type == enums.ChatType.GROUP:
+        Template = await get_admingroup(message.chat.id)
+        if Template is not None:
+            IMDB_TEMPLATE = Template["template"]
+
     if imdb:
-        cap = TEMPLATE.format(
+        cap = IMDB_TEMPLATE.format(
             query=search,
             title=imdb['title'],
             votes=imdb['votes'],
@@ -948,10 +950,7 @@ async def pm_auto_filter(client, msg, spoll=False):
                        "◈ All Files ◈", callback_data=f'pmfiles#{dbid}')]
                    )
 
-    imdb = await get_poster(search, file=(files[0]).file_name)
-    Template = await get_admingroup(message.chat.id)
-    if Template is not None:
-        IMDB_TEMPLATE = Template["template"]
+    imdb = await get_poster(message.text)
     if imdb:
         cap = IMDB_TEMPLATE.format(
             query=search,
