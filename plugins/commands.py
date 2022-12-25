@@ -26,7 +26,7 @@ BATCH_FILES = {}
 
 @Client.on_message((filters.command("start") | filters.regex('Start')) & filters.incoming)
 async def start(client, message):
-    if message.chat.type in ['group', 'supergroup']:
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         buttons = [
             [
                 InlineKeyboardButton('🤖 Updates', url='https://t.me/TMWAD')
