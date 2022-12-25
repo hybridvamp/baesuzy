@@ -841,12 +841,8 @@ async def auto_filter(client, msg, spoll=False):
         )
 
     imdb = await get_poster(message.text)
-    if message.chat.type == enums.ChatType.GROUP:
-        Template = await get_admingroup(message.chat.id)
-        if Template is not None:
-            TEMPLATE = Template["template"]
-        else:
-            TEMPLATE = IMDB_TEMPLATE
+ 
+    TEMPLATE = IMDB_TEMPLATE
 
     if imdb:
         cap = TEMPLATE.format(
