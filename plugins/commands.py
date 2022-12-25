@@ -399,7 +399,7 @@ async def start(client, message):
                 file = await client.download_media(file_id)
                 try:
                     with open(file) as file_data:
-                        msgs = json.loads(file_data.read())
+                        msgs = json.load(file_data)
                 except:
                     await sts.edit("FAILED")
                     return await client.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
