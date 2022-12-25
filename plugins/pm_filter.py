@@ -40,9 +40,9 @@ DOWNLOAD_LOCATION = "./DOWNLOADS"
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    await tvseries_filters(client, message)
+#     await tvseries_filters(client, message)
     await auto_filter(client, message)
-    await manual_filters(client, message)
+#     await manual_filters(client, message)
 
 
 @Client.on_message(filters.private & filters.text & filters.incoming)
@@ -494,7 +494,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 chat_id=query.from_user.id,
                 file_id=file_id,
                 caption=f_caption,
-                protect_content=True if ident == "filep" else False
+                protect_content=ident == "filep",
             )
             sendmsglist = [k]
             await add_sent_files(query.from_user.id, file_id)
@@ -565,7 +565,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             chat_id=query.from_user.id,
             file_id=file_id,
             caption=f_caption,
-            protect_content=True if ident == 'checksubp' else False
+            protect_content=ident == 'checksubp',
         )
     elif query.data == "pages":
         await query.answer()
@@ -841,8 +841,8 @@ async def auto_filter(client, msg, spoll=False):
         )
 
     imdb = await get_poster(message.text)
-    if message.chat.type == enums.ChatType.GROUP:
-        Template = await get_admingroup(message.chat.id)
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        Template = await get_admingroup(int(message.chat.id))
         if Template is not None:
             IMDB_TEMPLATE = Template["template"]
 
@@ -1173,12 +1173,13 @@ async def tvseries_filters(client, message, text=False):
                            text=f"{language} - {quality}", callback_data="pages")]
                        )
             btns.extend(btn)
-
+        
         imdb = await get_poster(message.text)
-        if message.chat.type == enums.ChatType.GROUP:
-            Template = await get_admingroup(message.chat.id)
+        if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+            Template = await get_admingroup(int(message.chat.id))
             if Template is not None:
                 IMDB_TEMPLATE = Template["template"]
+
         if imdb:
             cap = IMDB_TEMPLATE.format(
                 title=imdb['title'],
