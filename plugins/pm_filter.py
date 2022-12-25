@@ -42,7 +42,7 @@ DOWNLOAD_LOCATION = "./DOWNLOADS"
 async def give_filter(client, message):
     await tvseries_filters(client, message)
     await auto_filter(client, message)
-    await manual_filters(client, message)
+    # await manual_filters(client, message)
 
 
 @Client.on_message(filters.private & filters.text & filters.incoming)
@@ -180,7 +180,8 @@ async def advantage_spoll_choker(bot, query):
 
     movie = movies[int(movie_)]
     await query.answer('Checking for Movie in database...')
-    k = await manual_filters(bot, query.message, text=movie)
+    # k = await manual_filters(bot, query.message, text=movie)
+    k = False
     if k == False:
         files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
 
@@ -1088,56 +1089,56 @@ async def advantage_spell_chok(msg):
                     reply_markup=InlineKeyboardMarkup(btn))
 
 
-async def manual_filters(client, message, text=False):
-    group_id = message.chat.id
-    name = text or message.text
-    reply_id = message.reply_to_message.id if message.reply_to_message else message.id
-    keywords = await get_filters(group_id)
-    for keyword in reversed(sorted(keywords, key=len)):
-        pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
-        if re.search(pattern, name, flags=re.IGNORECASE):
-            reply_text, btn, alert, fileid = await find_filter(group_id, keyword)
+# async def manual_filters(client, message, text=False):
+#     group_id = message.chat.id
+#     name = text or message.text
+#     reply_id = message.reply_to_message.id if message.reply_to_message else message.id
+#     keywords = await get_filters(group_id)
+#     for keyword in reversed(sorted(keywords, key=len)):
+#         pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
+#         if re.search(pattern, name, flags=re.IGNORECASE):
+#             reply_text, btn, alert, fileid = await find_filter(group_id, keyword)
 
-            if reply_text:
-                reply_text = reply_text.replace(
-                    "\\n", "\n").replace("\\t", "\t")
+#             if reply_text:
+#                 reply_text = reply_text.replace(
+#                     "\\n", "\n").replace("\\t", "\t")
 
-            elif btn is not None:
-                if reply_text is None:
-                    break
-                try:
-                    if fileid == "None":
-                        if btn == "[]":
-                            await client.send_message(group_id, reply_text, disable_web_page_preview=True)
-                        else:
-                            button = eval(btn)
-                            await client.send_message(
-                                group_id,
-                                reply_text,
-                                disable_web_page_preview=True,
-                                reply_markup=InlineKeyboardMarkup(button),
-                                reply_to_message_id=reply_id
-                            )
-                    elif btn == "[]":
-                        await client.send_cached_media(
-                            group_id,
-                            fileid,
-                            caption=reply_text or "",
-                            reply_to_message_id=reply_id
-                        )
-                    else:
-                        button = eval(btn)
-                        await message.reply_cached_media(
-                            fileid,
-                            caption=reply_text or "",
-                            reply_markup=InlineKeyboardMarkup(button),
-                            reply_to_message_id=reply_id
-                        )
-                except Exception as e:
-                    logger.exception(e)
-                break
-    else:
-        return False
+#             elif btn is not None:
+#                 if reply_text is None:
+#                     break
+#                 try:
+#                     if fileid == "None":
+#                         if btn == "[]":
+#                             await client.send_message(group_id, reply_text, disable_web_page_preview=True)
+#                         else:
+#                             button = eval(btn)
+#                             await client.send_message(
+#                                 group_id,
+#                                 reply_text,
+#                                 disable_web_page_preview=True,
+#                                 reply_markup=InlineKeyboardMarkup(button),
+#                                 reply_to_message_id=reply_id
+#                             )
+#                     elif btn == "[]":
+#                         await client.send_cached_media(
+#                             group_id,
+#                             fileid,
+#                             caption=reply_text or "",
+#                             reply_to_message_id=reply_id
+#                         )
+#                     else:
+#                         button = eval(btn)
+#                         await message.reply_cached_media(
+#                             fileid,
+#                             caption=reply_text or "",
+#                             reply_markup=InlineKeyboardMarkup(button),
+#                             reply_to_message_id=reply_id
+#                         )
+#                 except Exception as e:
+#                     logger.exception(e)
+#                 break
+#     else:
+#         return False
 
 
 async def tvseries_filters(client, message, text=False):
