@@ -844,10 +844,12 @@ async def auto_filter(client, msg, spoll=False):
     if message.chat.type == enums.ChatType.GROUP:
         Template = await get_admingroup(message.chat.id)
         if Template is not None:
-            IMDB_TEMPLATE = Template["template"]
+            TEMPLATE = Template["template"]
+        else:
+            TEMPLATE = IMDB_TEMPLATE
 
     if imdb:
-        cap = IMDB_TEMPLATE.format(
+        cap = TEMPLATE.format(
             query=search,
             title=imdb['title'],
             votes=imdb['votes'],
