@@ -2,7 +2,7 @@ from distutils.log import error
 import logging
 import asyncio
 from queue import Empty
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdminRequired, UsernameInvalid, UsernameNotModified
 from info import ADMINS
@@ -46,6 +46,8 @@ async def index_files(bot, query):
 
 @Client.on_message(filters.forwarded & filters.private & filters.incoming)
 async def send_for_index(bot, message):
+    if message.chat.type in [enums.ChatType.PRIVATE, enums.ChatType.BOT]:
+        return await message.reply(f'Privet Channel Groups And Bots Not Accept')
     last_msg_id = message.forward_from_message_id
     chat_id = message.forward_from_chat.id
     try:
