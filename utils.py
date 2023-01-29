@@ -332,11 +332,12 @@ def getseries(name):
 
 
 def gen_url(link):
-    #     try:
-    #         urllink = shortner.tinyurl.short(link)
-    #     except Exception:
-    #         urllink = link
-    return link
+    link = f"https://rocklinks.net/st?api=85b949240ee33cb797db1efc7aa94cb265c6ad35&url={link}"
+    try:
+        urllink = shortner.tinyurl.short(link)
+    except Exception:
+        urllink = link
+    return urllink
 
 
 def split_list(l, n):
